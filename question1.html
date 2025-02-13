@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Jabari Namuro" />
+    <meta name="description" content="Question 1 Description" />
+    <meta name="keywords" content="question, assignment, javascript" />
     <title>Question 1 by Jabari Namuro</title>
   </head>
   <body>
     <script>
       alert("Welcome to Question 1.");
+      let firstName;
+      do {
+        firstName = prompt("Enter your first name:");
+      } while (!/^[a-zA-Z]+$/.test(firstName) || !firstName);
     </script>
   </body>
 </html>
