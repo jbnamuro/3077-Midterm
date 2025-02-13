@@ -1,20 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="author" content="Jabari Namuro" />
-    <meta name="description" content="Question 1 Description" />
-    <meta name="keywords" content="question, assignment, javascript" />
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <!-- Meta tags for author, description, and keywords -->
+    <meta name="author" content="Jabari Namuro" >
+    <meta
+      name="description"
+      content="Page built to dynamically show login/time and multiplication table of numbers"
+    >
+    <meta name="keywords" content="multiplication, time, dynamic" >
+    <!-- Title of the page -->
     <title>Question 1 by Jabari Namuro</title>
+    <!-- Google Material Icons for the home icon -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=home"
+    >
+
+    <style>
+      /* Styling for the page */
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .current-date {
+        text-align: center;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        border: 1px solid black;
+        margin: auto;
+      }
+
+      .multi-table {
+        margin-top: 16px;
+      }
+
+      th {
+        background-color: black;
+        color: white;
+        padding: 2px 10px;
+      }
+
+      td {
+        border: 1px solid black;
+        padding: 2px 10px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #d0cccc;
+      }
+
+      .sInput {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      label {
+        margin-right: 5px;
+      }
+    </style>
   </head>
   <body>
+    <!-- Title and home icon -->
+    <div class="title">
+      <h1>Question 1 by Jabari Namuro</h1>
+      <span class="material-symbols-outlined"> home </span>
+    </div>
+
+    <!-- Div for displaying current date, time, and logged-in user -->
+    <div class="current-date">
+      <p id="time"></p>
+    </div>
+
+    <!-- Div for seed input -->
+    <div class="sInput">
+      <label for="seedInput">Enter Digit (0-9) </label>
+      <input type="text" maxlength="1" id="seedInput" >
+    </div>
+
+    <!-- Div for multiplication table -->
+    <div class="multi-table">
+      <table>
+        <tr>
+          <th colspan="2" id="header"></th>
+        </tr>
+        <!-- Rows for multiplication table -->
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <tr>
+          <td class="equation"></td>
+          <td class="answer"></td>
+        </tr>
+        <!-- Row for column sum -->
+        <tr>
+          <td>Column Sum:</td>
+          <td id="sum"></td>
+        </tr>
+      </table>
+    </div>
+
     <script>
+      // Alert to welcome the user
       alert("Welcome to Question 1.");
+
+      // Prompt user for their first name and validate it
       let firstName;
-      do {
-        firstName = prompt("Enter your first name:");
-      } while (!/^[a-zA-Z]+$/.test(firstName) || !firstName);
+      let passed = false;
+
+      while (!passed) {
+        firstName = prompt("What is your first name?: ");
+        passed = /^[a-zA-Z]+$/.test(firstName); // Check if name is only letters
+      }
+
+      // Options for formatting the date and time
+      const options = {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+      };
+
+      // Function to display the current date, time, and logged-in user
+      const clock = () => {
+        let now = new Date();
+        let dateTime = now.toLocaleString("en-US", options);
+        document.getElementById(
+          "time"
+        ).innerHTML = `${dateTime} ${firstName} is logged in`;
+      };
+      clock(); // Initial call
+      setInterval(clock, 1000); // Update every second
+
+      // Get references to the seed input and table elements
+      const seedInput = document.getElementById("seedInput");
+      const appendNum = document.getElementsByClassName("equation");
+      const calcNum = document.getElementsByClassName("answer");
+
+      // Function to generate a random digit between 0 and 9
+      getRandomInt = () => {
+        return Math.floor(Math.random() * 10);
+      };
+
+      // Initialize seedInput with a random digit
+      let lastInt = getRandomInt();
+      seedInput.value = lastInt;
+
+      // Function to update the multiplication table based on the seedInput value
+      let changeMulti = () => {
+        let columnSum = 0;
+        document.getElementById(
+          "header"
+        ).innerHTML = `Multiplication Table of ${lastInt}`;
+
+        // Loop to calculate and display the multiplication table
+        for (let i = 0; i < 10; i++) {
+          appendNum[i].innerHTML = `${i} x ${lastInt} =`;
+          let calc = i * lastInt;
+          calcNum[i].innerHTML = calc;
+          columnSum += calc; // Add to column sum
+        }
+        document.getElementById("sum").innerHTML = columnSum; // Display column sum
+      };
+
+      changeMulti(); // Initial call to display the table
+
+      // Event listener for seedInput to validate and update the table
+      seedInput.addEventListener("keyup", (e) => {
+        if (!/^[0-9]$/.test(e.key)) {
+          // If input is not a digit, revert to the last valid value
+          seedInput.value = lastInt;
+        } else {
+          // If input is valid, update the value
+          seedInput.value = e.key;
+          lastInt = e.key;
+        }
+        changeMulti(); // Update the multiplication table
+      });
     </script>
   </body>
 </html>
